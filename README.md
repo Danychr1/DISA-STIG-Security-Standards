@@ -26,3 +26,9 @@ Researched required remediations for each STIG ID to determine corrective action
 
 ### Steps Taken
 
+ 1. Intentional Windows 11 VM Misconfiguration for Vulnerability Creation & Detection.
+    
+     - Built a Windows 11 VM and introduced deliberate misconfigurations (firewall disabled, blank passwords, admin/guest privilege misuse, open NSG).
+       
+     - Validated exposure by pinging the VM and preparing it for vulnerability scanning.
+
