@@ -24,6 +24,13 @@ Reviewed audit findings to identify failed controls and their associated STIG ID
 
 Researched required remediations for each STIG ID to determine corrective actions.
 
+### Tools 
+
+1. Azure & Bastion
+2. Windows 11 VM
+3. Tenable Nessus: Advanced Network Scan
+4. [Windows 11 Security Technical Implementation Guide(STIG) V2R4 Database](https://stigaview.com/products/win11/v2r4/)
+
 ### Steps Taken
 
  1. Intentional Windows 11 VM Misconfiguration for Vulnerability Creation & Detection.
