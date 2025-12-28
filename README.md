@@ -56,4 +56,10 @@ Researched required remediations for each STIG ID to determine corrective action
 3. Researched the solution.
 After searching for the specified STIG-ID within the Tenable Audit database, the solution to remediate the vulnerbility was given in steps.
 
+
 Example solution: 
+      
+  <img width="1544" height="724" alt="Screenshot 2025-12-28 at 12 40 35 PM" src="https://github.com/user-attachments/assets/68dcca58-15e6-4d78-a7ca-4f8c684b0d3b" />
+
+
+
