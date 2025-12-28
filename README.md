@@ -38,4 +38,5 @@ Researched required remediations for each STIG ID to determine corrective action
      - Built a Windows 11 VM and introduced deliberate misconfigurations (firewall disabled, blank passwords, admin/guest privilege misuse, open NSG).
        
      - Validated exposure by pinging the VM and preparing it for vulnerability scanning.
+<img width="1617" height="884" alt="Screenshot 2025-12-28 at 11 48 09 AM" src="https://github.com/user-attachments/assets/3e352c9f-1e9f-4a0f-8eac-b708f53cf1b4" />
 
