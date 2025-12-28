@@ -38,6 +38,7 @@ Researched required remediations for each STIG ID to determine corrective action
      - Built a Windows 11 VM and introduced deliberate misconfigurations (firewall disabled, blank passwords, admin/guest privilege misuse, open NSG).
        
      - Validated exposure by pinging the VM and preparing it for vulnerability scanning.
+
 <img width="1617" height="884" alt="Screenshot 2025-12-28 at 11 48 09 AM" src="https://github.com/user-attachments/assets/3e352c9f-1e9f-4a0f-8eac-b708f53cf1b4" />
 
 
@@ -46,7 +47,9 @@ Researched required remediations for each STIG ID to determine corrective action
 <img width="1618" height="892" alt="Screenshot 2025-12-28 at 11 54 06 AM" src="https://github.com/user-attachments/assets/5db4ca2c-76eb-4892-800e-31e7481915c9" />
 
 3. Searched the STIG-ID using Tenable Audits.
-Searched for STIG-ID within the Tenable Audits database (https://www.tenable.com/audits).
+
+    - Searched for STIG-ID within the Tenable Audits database (https://www.tenable.com/audits).
+      
 <img width="1608" height="893" alt="Screenshot 2025-12-28 at 12 03 43 PM" src="https://github.com/user-attachments/assets/0f0b18a7-73d5-4695-bd2b-3467a0d78b9c" />
 
 
