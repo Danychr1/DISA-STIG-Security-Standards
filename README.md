@@ -61,11 +61,19 @@ Example solution:
       
   <img width="1544" height="724" alt="Screenshot 2025-12-28 at 12 40 35 PM" src="https://github.com/user-attachments/assets/68dcca58-15e6-4d78-a7ca-4f8c684b0d3b" />
 
+
 5. Developed a PowerShell remediation script using the STIG Remediation Template.
    - Used the DISA STIGs PowerShell [STIG Remediation Template](https://github.com/Danychr1/DISA-STIG-Security-Standards/blob/main/STIG_Remediation_Template.ps1)
 
-   
 
+6. Initiated script development by testing and running the code in PowerShell ISE.
+
+
+7. 
+
+
+
+   
 https://github.com/behan101/DISA-STIGs
 
 https://medium.com/@stevenrim/powershell-automation-for-disa-stig-compliance-and-hardening-6515d055d9ef
