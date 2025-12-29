@@ -53,14 +53,18 @@ Researched required remediations for each STIG ID to determine corrective action
 <img width="1608" height="893" alt="Screenshot 2025-12-28 at 12 03 43 PM" src="https://github.com/user-attachments/assets/0f0b18a7-73d5-4695-bd2b-3467a0d78b9c" />
 
 
-3. Researched the solution.
-After searching for the specified STIG-ID within the Tenable Audit database, the solution to remediate the vulnerbility was given in steps.
+4. Researched the solution.
+After searching for the specified STIG ID within the Tenable Audit database, the solution to remediate the vulnerability was provided in steps.
 
 
 Example solution: 
       
   <img width="1544" height="724" alt="Screenshot 2025-12-28 at 12 40 35 PM" src="https://github.com/user-attachments/assets/68dcca58-15e6-4d78-a7ca-4f8c684b0d3b" />
 
+5. Developed a PowerShell remediation script using the STIG Remediation Template.
+   - Used the DISA STIGs PowerShell [STIG Remediation Template](https://github.com/Danychr1/DISA-STIG-Security-Standards/blob/main/STIG_Remediation_Template.ps1)
+
+   
 
 https://github.com/behan101/DISA-STIGs
 
