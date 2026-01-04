@@ -29,7 +29,7 @@ Researched required remediations for each STIG ID to determine corrective action
 1. Azure & Bastion
 2. Windows 11 VM
 3. Tenable Nessus: Advanced Network Scan
-4. [Windows 11 Security Technical Implementation Guide(STIG) V2R5 Database](https://stigaview.com/products/win11/v2r5/) or use https://www.tenable.com/audits
+4. [Windows 11 Security Technical Implementation Guide(STIG) V2R4 Database](https://stigaview.com/products/win11/v2r4/) or use https://www.tenable.com/audits
 
 ### Steps Taken
 
