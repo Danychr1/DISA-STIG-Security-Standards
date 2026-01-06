@@ -1,5 +1,5 @@
 
-<img width="685" height="385" alt="Screenshot 2025-12-28 at 11 21 17 AM" src="https://github.com/user-attachments/assets/d55eeb10-4e33-4d86-b7d5-60b298e06a69" />
+<img width="1024" height="1024" alt="ChatGPT Image Jan 5, 2026, 08_34_05 PM" src="https://github.com/user-attachments/assets/298de271-49bf-4af2-93ee-7adebc9869bb" />
 
 ## Defense Information Systems Agency (DISA) – Security Technical Implementation Guides (STIGs)
 
