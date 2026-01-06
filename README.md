@@ -71,8 +71,14 @@ Example solution:
 
 6. Initiated script development by testing and running the code in PowerShell ISE.
 
+   <img width="1275" height="760" alt="Screenshot 2026-01-05 at 10 09 00 PM" src="https://github.com/user-attachments/assets/703a8a73-e815-4285-b1db-37771601c0be" />
 
-7. 
+
+
+
+
+
+8. 
 
 
 
