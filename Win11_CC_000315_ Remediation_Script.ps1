@@ -1,6 +1,6 @@
  <#
  .SYNOPSIS
-    This PowerShell script ensures that the associated STIG-ID WN11-CC-000315 vulnerability is remediated installes feature 'Always install with elevated privileges' must be disabled.
+    This PowerShell script ensures that the associated STIG-ID (WN11-CC-000315) vulnerability is remediated installes feature 'Always install with elevated privileges' must be disabled.
 
 .NOTES
     Author          : Dany Christel
@@ -31,11 +31,11 @@
 .USAGE
     Put any usage instructions here.
     Example syntax:
-    PS C:\> .\stig_remediation_templateWN_CC_000315.ps1
+    PS C:\> .\Win11_CC_000315_Remediation_Script.ps1
 #>
 
 # # ============================================================
-# Disable "Always install with elevated privileges"
+# Disable "Always install with elevated privileges."
 # Windows Installer Security Hardening
 # ============================================================
 
@@ -55,4 +55,9 @@ foreach ($path in $registryPaths) {
 }
 
 Write-Output "✔ 'Always install with elevated privileges' has been DISABLED for Computer and User."
+
+# Optional: Refresh Group Policy
+Write-Host "Refreshing Group Policy..."
+gpupdate /target:computer /force | Out-Null
+Write-Host "Group Policy refreshed successfully." -ForegroundColor Green
  
