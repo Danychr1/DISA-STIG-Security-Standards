@@ -1,5 +1,5 @@
  <#
-.SYNOPSIS
+ .SYNOPSIS
     This PowerShell script ensures that the associated STIG-ID WN11-CC-000315 vulnerability is remediated installes feature 'Always install with elevated privileges' must be disabled.
 
 .NOTES
