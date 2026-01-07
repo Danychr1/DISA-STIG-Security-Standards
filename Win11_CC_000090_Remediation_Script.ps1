@@ -11,7 +11,7 @@
     Version         : 1.0
     CVEs            : N/A
     Plugin IDs      : N/A
-    STIG-ID         : WN11-CC-000315
+    STIG-ID         : WN11-CC-000090
 
 .TITLE
 Force Group Policy reprocessing even if unchanged
@@ -33,7 +33,7 @@ This enhances security by making sure settings are always applied according to D
 .USAGE
     Put any usage instructions here.
     Example syntax:
-    PS C:\> .\Win11_AU_000050_Remediation_Script.ps1
+    PS C:\> .\Win11_CC_000090_Remediation_Script.ps1
 #>
 
 # -----------------------------
