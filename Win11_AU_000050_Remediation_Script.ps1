@@ -18,7 +18,9 @@
 Equivalent to setting: Computer Configuration > Windows Settings > Security Settings >
 Advanced Audit Policy Configuration > System Audit Policies > Detailed Tracking > 'Audit Process Creation' → Success #>
 
-
+.REQUIREMENTS
+- Run as Administrator
+- Windows 11
 
     This enforces:
 
@@ -35,7 +37,9 @@ Advanced Audit Policy Configuration > System Audit Policies > Detailed Tracking 
     PS C:\> .\Win11_AU_000050_Remediation_Script.ps1
 #>
 
-# Ensure script runs as Administrator
+# -----------------------------
+# Step 0: Ensure running as Admin
+# -----------------------------
 If (-not ([Security.Principal.WindowsPrincipal] `
     [Security.Principal.WindowsIdentity]::GetCurrent()
     ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
@@ -44,27 +48,35 @@ If (-not ([Security.Principal.WindowsPrincipal] `
     Exit 1
 }
 
-Write-Host "Configuring Audit Process Creation → Success..." -ForegroundColor Cyan
+Write-Host "`n[INFO] Applying STIG: WN11-AU-000050" -ForegroundColor Cyan
 
-# Enable Success auditing for Process Creation
+# -----------------------------
+# Step 1: Enable Success auditing
+# -----------------------------
+Write-Host "[INFO] Enabling Success auditing for Process Creation..." -ForegroundColor Cyan
 auditpol /set /subcategory:"Process Creation" /success:enable
 
-# Verify configuration
-Write-Host "`nVerifying audit policy..." -ForegroundColor Yellow
-$auditStatus = auditpol /get /subcategory:"Process Creation"
+# -----------------------------
+# Step 2: Refresh Group Policy
+# -----------------------------
+Write-Host "[INFO] Refreshing Group Policy..." -ForegroundColor Cyan
+gpupdate /force | Out-Null
+Start-Sleep -Seconds 5
 
+# -----------------------------
+# Step 3: Verify the setting
+# -----------------------------
+Write-Host "[INFO] Verifying audit policy..." -ForegroundColor Yellow
+$auditStatus = auditpol /get /subcategory:"Process Creation"
 Write-Output $auditStatus
 
-# Confirm
-if ($auditStatus -match "Success\s+Enabled") {
-    Write-Host "`nSUCCESS: Audit Process Creation → Success is enabled." -ForegroundColor Green
+# -----------------------------
+# Step 4: Confirm success
+# -----------------------------
+if ($auditStatus -match "Success") {
+    Write-Host "`n[SUCCESS] Process Creation auditing for Success is ENABLED." -ForegroundColor Green
 } else {
-    Write-Warning "WARNING: Audit policy may not have been applied correctly."
+    Write-Warning "`n[WARNING] Audit Process Creation → Success may not be applied correctly."
 }
 
-# Optional: Refresh Group Policy
-Write-Host "Refreshing Group Policy..."
-gpupdate /target:computer /force | Out-Null
-Write-Host "Group Policy refreshed successfully." -ForegroundColor Green
-
-
+Write-Host "`n[INFO] STIG WN11-AU-000050 remediation completed." -ForegroundColor Cyan
