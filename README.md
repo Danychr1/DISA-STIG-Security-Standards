@@ -5,7 +5,10 @@
 ## DISA STIG Security Standards – Windows 11 Compliance Automation
 
 flowchart TD
-    A[💻 Lab VM Setup] --> B[🔍 Tenable Scan for STIG Compliance]
+    
+    A[💻 Lab VM Setup] 
+    
+    --> B[🔍 Tenable Scan for STIG Compliance]
     
     B --> C[📖 Research STIG-ID & Remediation Steps]
     
