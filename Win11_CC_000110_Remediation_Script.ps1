@@ -1,7 +1,6 @@
 <#
  .SYNOPSIS
-    This PowerShell script ensures that the associated STIG-ID (WN11-CC-000110) vulnerability is remediated installes feature 'Always install with elevated privileges' must be disabled.
-
+    Remediates DISA STIG WN11-CC-000110 by disabling Printing over HTTP.
 .NOTES
     Author          : Dany Christel
     LinkedIn        : https://www.linkedin.com/in/dany-christel/
@@ -18,8 +17,13 @@
    Prevent Printing over HTTP
 
 .DESCRIPTION
-   Configures the system to prevent printing over HTTP, in compliance with
-   DISA Windows 11 STIG WN11-CC-000110.
+   This PowerShell script configures the Windows 11 system to prevent
+    printing over HTTP by enabling the policy:
+    "Turn off printing over HTTP".
+
+    This setting is required to comply with DISA Windows 11 STIG
+    WN11-CC-000110 and helps reduce attack surface by preventing
+    insecure print traffic.
 
     This enforces:
 
@@ -36,46 +40,44 @@
     PS C:\> .\Win11_CC_000110_Remediation_Script.ps1
 #>
 
-# -----------------------------
-# Step 0: Ensure running as Admin
-# -----------------------------
-If (-not ([Security.Principal.WindowsPrincipal] `
+# -------------------------------------------------
+# Step 0: Ensure script is running as Administrator
+# -------------------------------------------------
+if (-not ([Security.Principal.WindowsPrincipal] `
     [Security.Principal.WindowsIdentity]::GetCurrent()
-    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
 
     Write-Error "This script must be run as Administrator."
-    Exit 1
+    exit 1
 }
 
-Write-Host "`n[INFO] Applying STIG: WN11-CC-000110 - Turn off Printing over HTTP" -ForegroundColor Cyan
+Write-Host "`n[INFO] Applying STIG WN11-CC-000110 - Turn off Printing over HTTP" -ForegroundColor Cyan
 
-# -----------------------------
-# Step 1: Set the GPO via registry
-# -----------------------------
-# Registry path for this policy
-$regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Internet Communication Management\Internet Communication settings"
-$regName = "TurnOffPrintingHTTP"
+# -------------------------------------------------
+# Step 1: Configure registry-based Group Policy
+# -------------------------------------------------
+$RegPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\Internet Communication Management\Internet Communication settings"
+$RegName = "TurnOffPrintingHTTP"
+$RegValue = 1   # 1 = Enabled (Printing over HTTP disabled)
 
-# Create key if it doesn't exist
-If (-not (Test-Path $regPath)) {
-    New-Item -Path $regPath -Force | Out-Null
+if (-not (Test-Path $RegPath)) {
+    New-Item -Path $RegPath -Force | Out-Null
 }
 
-# Set value to 1 = Enabled
-Set-ItemProperty -Path $regPath -Name $regName -Value 1 -Type DWord
+Set-ItemProperty -Path $RegPath -Name $RegName -Value $RegValue -Type DWord
 
-Write-Host "[INFO] 'Turn off printing over HTTP' policy set to Enabled" -ForegroundColor Cyan
+Write-Host "[INFO] Registry policy configured successfully." -ForegroundColor Cyan
 
-# -----------------------------
-# Step 2: Verify the setting
-# -----------------------------
-$regValue = Get-ItemProperty -Path $regPath -Name $regName | Select-Object -ExpandProperty TurnOffPrintingHTTP
+# -------------------------------------------------
+# Step 2: Validate configuration
+# -------------------------------------------------
+$CurrentValue = Get-ItemProperty -Path $RegPath -Name $RegName -ErrorAction SilentlyContinue |
+                Select-Object -ExpandProperty $RegName
 
-If ($regValue -eq 1) {
-    Write-Host "[SUCCESS] Printing over HTTP is DISABLED." -ForegroundColor Green
+if ($CurrentValue -eq 1) {
+    Write-Host "[SUCCESS] Printing over HTTP is DISABLED (STIG compliant)." -ForegroundColor Green
 } else {
-    Write-Warning "[WARNING] Printing over HTTP policy may not have been applied correctly."
+    Write-Warning "[WARNING] Printing over HTTP policy validation failed."
 }
 
 Write-Host "[INFO] STIG WN11-CC-000110 remediation completed." -ForegroundColor Cyan
-
