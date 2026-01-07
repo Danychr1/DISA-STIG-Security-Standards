@@ -1,7 +1,8 @@
 <#
  .SYNOPSIS
-    This PowerShell script ensures that the associated STIG-ID (WN11-CC-000197) vulnerability is remediated installes feature 'Always install with elevated privileges' must be disabled.
-
+   Remediates DISA STIG WN11-CC-000197 by disabling Microsoft Consumer Experiences
+    on Windows 11 systems.
+    
 .NOTES
     Author          : Dany Christel
     LinkedIn        : https://www.linkedin.com/in/dany-christel/
@@ -18,10 +19,16 @@
    Turn off Microsoft Consumer Experiences
 
 .DESCRIPTION
-   Configures the system to disable Microsoft Consumer Experiences (apps, promotions, etc.)
-  in compliance with DISA Windows 11 STIG WN11-CC-000197.
+  This PowerShell script configures the system to disable Microsoft Consumer
+    Experiences (such as consumer apps, tips, and promotional content) in
+    accordance with DISA Windows 11 STIG WN11-CC-000197.
 
-    This enforces:
+    Policy Path:
+    Computer Configuration >>
+    Administrative Templates >>
+    Windows Components >>
+    Cloud Content >>
+    Turn off Microsoft consumer experiences = Enabled
 
 
 .TESTED ON
@@ -36,44 +43,50 @@
     PS C:\> .\Win11_CC_000197_Remediation_Script.ps1
 #>
 
-# -----------------------------
-# Step 0: Ensure running as Admin
-# -----------------------------
-If (-not ([Security.Principal.WindowsPrincipal] `
+# -------------------------------------------------
+# Step 0: Ensure the script is run as Administrator
+# -------------------------------------------------
+if (-not ([Security.Principal.WindowsPrincipal] `
     [Security.Principal.WindowsIdentity]::GetCurrent()
-    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
 
-    Write-Error "This script must be run as Administrator."
-    Exit 1
+    Write-Error "This script must be run with Administrator privileges."
+    exit 1
 }
 
-Write-Host "`n[INFO] Applying STIG: WN11-CC-000197 - Turn off Microsoft Consumer Experiences" -ForegroundColor Cyan
+Write-Host "`n[INFO] Applying STIG WN11-CC-000197 - Turn off Microsoft Consumer Experiences" -ForegroundColor Cyan
 
-# -----------------------------
-# Step 1: Set the GPO via registry
-# -----------------------------
+# -------------------------------------------------
+# Step 1: Configure registry-based policy
+# -------------------------------------------------
 $regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
 $regName = "DisableConsumerFeatures"
+$regValue = 1   # 1 = Enabled (STIG-compliant)
 
-# Create key if it doesn't exist
-If (-not (Test-Path $regPath)) {
-    New-Item -Path $regPath -Force | Out-Null
+try {
+    if (-not (Test-Path $regPath)) {
+        New-Item -Path $regPath -Force | Out-Null
+    }
+
+    Set-ItemProperty -Path $regPath -Name $regName -Value $regValue -Type DWord -Force
+
+    Write-Host "[INFO] Policy configured: 'Turn off Microsoft consumer experiences' = Enabled" -ForegroundColor Cyan
+}
+catch {
+    Write-Error "[ERROR] Failed to configure registry policy: $_"
+    exit 1
 }
 
-# Set value to 1 = Enabled
-Set-ItemProperty -Path $regPath -Name $regName -Value 1 -Type DWord
+# -------------------------------------------------
+# Step 2: Verify compliance
+# -------------------------------------------------
+$appliedValue = Get-ItemProperty -Path $regPath -Name $regName -ErrorAction SilentlyContinue |
+    Select-Object -ExpandProperty $regName
 
-Write-Host "[INFO] 'Turn off Microsoft consumer experiences' policy set to Enabled" -ForegroundColor Cyan
-
-# -----------------------------
-# Step 2: Verify the setting
-# -----------------------------
-$regValue = Get-ItemProperty -Path $regPath -Name $regName | Select-Object -ExpandProperty DisableConsumerFeatures
-
-If ($regValue -eq 1) {
-    Write-Host "[SUCCESS] Microsoft Consumer Experiences are DISABLED." -ForegroundColor Green
+if ($appliedValue -eq 1) {
+    Write-Host "[SUCCESS] Microsoft Consumer Experiences are disabled (STIG compliant)." -ForegroundColor Green
 } else {
-    Write-Warning "[WARNING] Microsoft Consumer Experiences policy may not have been applied correctly."
+    Write-Warning "[WARNING] STIG WN11-CC-000197 may not be fully applied."
 }
 
 Write-Host "[INFO] STIG WN11-CC-000197 remediation completed." -ForegroundColor Cyan
