@@ -1,6 +1,7 @@
 <#
  .SYNOPSIS
-    This PowerShell script ensures that the associated STIG-ID (WN11-CC-000090) vulnerability is remediated installes feature 'Always install with elevated privileges' must be disabled.
+    Remediates DISA STIG WN11-CC-000090 by disabling
+    "Always install with elevated privileges".
 
 .NOTES
     Author          : Dany Christel
@@ -17,8 +18,10 @@
 Force Group Policy reprocessing even if unchanged
 
 .DESCRIPTION
-   Ensures that Group Policy Objects are reprocessed even if they have not changed.
-This enhances security by making sure settings are always applied according to DISA STIG requirements.
+   This script disables the Windows Installer policy that allows
+    MSI packages to be installed with elevated privileges.
+    The setting is enforced for both Computer and User scopes
+    to fully comply with DISA STIG requirements.
 
 
     This enforces:
@@ -37,33 +40,47 @@ This enhances security by making sure settings are always applied according to D
 #>
 
 # -----------------------------
-# Step 0: Ensure running as Admin
+# Step 0: Ensure Administrator
 # -----------------------------
-If (-not ([Security.Principal.WindowsPrincipal] `
+if (-not ([Security.Principal.WindowsPrincipal] `
     [Security.Principal.WindowsIdentity]::GetCurrent()
-    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
 
     Write-Error "This script must be run as Administrator."
-    Exit 1
+    exit 1
 }
 
-Write-Host "`n[INFO] Applying STIG: WN11-CC-000090" -ForegroundColor Cyan
+Write-Host "`n[INFO] Applying STIG WN11-CC-000090 remediation..." -ForegroundColor Cyan
 
 # -----------------------------
-# Step 1: Force Group Policy reprocessing
+# Step 1: Define Registry Paths
 # -----------------------------
-Write-Host "[INFO] Forcing Group Policy reprocessing..." -ForegroundColor Cyan
+$regPaths = @(
+    "HKLM:\Software\Policies\Microsoft\Windows\Installer",
+    "HKCU:\Software\Policies\Microsoft\Windows\Installer"
+)
+
+# -----------------------------
+# Step 2: Disable AlwaysInstallElevated
+# -----------------------------
+foreach ($path in $regPaths) {
+
+    if (-not (Test-Path $path)) {
+        New-Item -Path $path -Force | Out-Null
+    }
+
+    Set-ItemProperty -Path $path `
+        -Name "AlwaysInstallElevated" `
+        -Value 0 `
+        -Type DWord
+
+    Write-Host "[INFO] Set AlwaysInstallElevated = 0 at $path" -ForegroundColor Yellow
+}
+
+# -----------------------------
+# Step 3: Apply Group Policy
+# -----------------------------
+Write-Host "[INFO] Refreshing Group Policy..." -ForegroundColor Cyan
 gpupdate /force | Out-Null
 
-# Optional: wait a few seconds to ensure refresh
-Start-Sleep -Seconds 5
-
-# -----------------------------
-# Step 2: Verify Group Policy refresh
-# -----------------------------
-Write-Host "[INFO] Verifying Group Policy status..." -ForegroundColor Yellow
-# Use GPResult to confirm that policies have been applied
-gpresult /r
-
-Write-Host "`n[SUCCESS] Group Policy reprocessing enforced successfully." -ForegroundColor Green
-Write-Host "[INFO] STIG WN11-CC-000090 remediation completed." -ForegroundColor Cyan
+Write-Host "`n[SUCCESS] STIG WN11-CC-000090 remediation completed successfully." -ForegroundColor Green
