@@ -1,7 +1,6 @@
 <#
  .SYNOPSIS
-    Remediates DISA STIG WN11-CC-000090 by disabling
-    "Always install with elevated privileges".
+    Remediates DISA STIG WN11-CC-000090 by disabling "Always install with elevated privileges".
 
 .NOTES
     Author          : Dany Christel
