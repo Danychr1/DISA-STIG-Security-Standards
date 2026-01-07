@@ -33,11 +33,13 @@
 #>
 
 # -----------------------------
-# Step 0: Ensure Administrator
+# Step 0: Ensure running as Admin
 # -----------------------------
-if (-not ([Security.Principal.WindowsPrincipal]
+$principal = New-Object Security.Principal.WindowsPrincipal(
     [Security.Principal.WindowsIdentity]::GetCurrent()
-).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+)
+
+if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     Write-Error "This script must be run as Administrator."
     exit 1
 }
