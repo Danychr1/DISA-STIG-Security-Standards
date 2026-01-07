@@ -97,7 +97,7 @@ Developed PowerShell scripts using the STIG Remediation Template
 
 Scripts were tested in PowerShell ISE to ensure safe application.
 
-<img width="1091" height="547" alt="PowerShell ISE Testing" src="https://github.com/user-attachments/assets/c71ff8cd-626c-4ff9-bf6d-90b21134304e" /> *Testing and validating STIG remediation scripts.*
+<img width="1219" height="663" alt="Screenshot 2026-01-07 at 10 14 07 AM" src="https://github.com/user-attachments/assets/880e5f70-2ff7-470e-84c0-ab7f6da77889" /> *Testing and validating STIG remediation scripts.*
 
 5️⃣ Validation & Follow-Up
 
