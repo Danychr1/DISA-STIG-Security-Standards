@@ -1,6 +1,7 @@
 <#
  .SYNOPSIS
-    This PowerShell script ensures that the associated STIG-ID (WN11-EP-000310) vulnerability is remediated installes feature 'Always install with elevated privileges' must be disabled.
+    Remediates STIG WN11-EP-000310 by enabling Kernel DMA Protection and blocking all incompatible devices.
+
 
 .NOTES
     Author          : Dany Christel
@@ -18,11 +19,10 @@
    Enable Kernel DMA Protection – Block All for incompatible devices
 
 .DESCRIPTION
-   Configures the system to enable Kernel DMA Protection and blocks enumeration
-     of external devices incompatible with DMA protection, in compliance with DISA Windows 11 STIG WN11-EP-000310.
-
-    This enforces:
-
+  Configures the system to enable Kernel DMA Protection and blocks enumeration
+    of external devices incompatible with DMA protection, in compliance with DISA
+    Windows 11 STIG WN11-EP-000310. This ensures protection against DMA attacks
+    from external devices.
 
 .TESTED ON
     Date(s) Tested  : 01/06/2026
@@ -37,35 +37,38 @@
 #>
 
 # -----------------------------
-# Step 0: Ensure running as Admin
+# Step 0: Ensure script is running as Admin
 # -----------------------------
 If (-not ([Security.Principal.WindowsPrincipal] `
     [Security.Principal.WindowsIdentity]::GetCurrent()
     ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
 
-    Write-Error "This script must be run as Administrator."
+    Write-Error "[ERROR] This script must be run as Administrator."
     Exit 1
 }
 
 Write-Host "`n[INFO] Applying STIG: WN11-EP-000310 - Kernel DMA Protection" -ForegroundColor Cyan
 
 # -----------------------------
-# Step 1: Enable Kernel DMA Protection GPO
+# Step 1: Enable Kernel DMA Protection via Registry
 # -----------------------------
-# Registry path for Kernel DMA Protection GPO
 $regPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\KernelDMAProtection"
 $regName = "DmaSecurityPolicy"
 
-# Create key if it doesn't exist
+# Create the key if it doesn't exist
 If (-not (Test-Path $regPath)) {
     New-Item -Path $regPath -Force | Out-Null
 }
 
 # Set 'DmaSecurityPolicy' to 1 (Block All)
-# 0 = Off, 1 = Block All, 2 = Allow Standard
-Set-ItemProperty -Path $regPath -Name $regName -Value 1 -Type DWord
-
-Write-Host "[INFO] Kernel DMA Protection set to 'Block All'" -ForegroundColor Cyan
+# Values: 0 = Off, 1 = Block All, 2 = Allow Standard
+Try {
+    Set-ItemProperty -Path $regPath -Name $regName -Value 1 -Type DWord
+    Write-Host "[INFO] Kernel DMA Protection set to 'Block All'" -ForegroundColor Cyan
+} Catch {
+    Write-Error "[ERROR] Failed to set Kernel DMA Protection: $_"
+    Exit 1
+}
 
 # -----------------------------
 # Step 2: Verify the setting
@@ -74,7 +77,7 @@ $regValue = Get-ItemProperty -Path $regPath -Name $regName | Select-Object -Expa
 
 If ($regValue -eq 1) {
     Write-Host "[SUCCESS] Kernel DMA Protection is ENABLED with 'Block All' policy." -ForegroundColor Green
-} else {
+} Else {
     Write-Warning "[WARNING] Kernel DMA Protection policy may not have been applied correctly."
 }
 
