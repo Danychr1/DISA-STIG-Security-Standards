@@ -70,8 +70,10 @@ Example solution:
 
 
 6. Initiated script development by testing and running the code in PowerShell ISE.
+   
+<img width="1091" height="547" alt="Screenshot 2026-01-07 at 3 04 29 AM" src="https://github.com/user-attachments/assets/c71ff8cd-626c-4ff9-bf6d-90b21134304e" />
 
-   <img width="1275" height="760" alt="Screenshot 2026-01-05 at 10 09 00 PM" src="https://github.com/user-attachments/assets/703a8a73-e815-4285-b1db-37771601c0be" />
+  
 
 7. After validation, I restarted the machine to ensure all changes were fully applied. I then reran the Tenable scan to perform a follow-up compliance audit, confirming that the remediation was successfully implemented.
 
