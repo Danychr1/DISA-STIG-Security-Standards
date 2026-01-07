@@ -18,9 +18,9 @@
 Equivalent to setting: Computer Configuration > Windows Settings > Security Settings >
 Advanced Audit Policy Configuration > System Audit Policies > Detailed Tracking > 'Audit Process Creation' → Success #>
 
-.REQUIREMENTS
-- Run as Administrator
-- Windows 11
+#.REQUIREMENTS
+# - Run as Administrator
+# - Windows 11
 
     This enforces:
 
