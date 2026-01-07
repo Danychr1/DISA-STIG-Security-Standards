@@ -1,6 +1,6 @@
 <#
  .SYNOPSIS
-    This PowerShell script ensures that the associated STIG-ID (WN11-CC-000315) vulnerability is remediated installes feature 'Always install with elevated privileges' must be disabled.
+    This PowerShell script ensures that the associated STIG-ID (WN11-AU-000050) vulnerability is remediated installes feature 'Always install with elevated privileges' must be disabled.
 
 .NOTES
     Author          : Dany Christel
@@ -18,9 +18,6 @@
 Equivalent to setting: Computer Configuration > Windows Settings > Security Settings >
 Advanced Audit Policy Configuration > System Audit Policies > Detailed Tracking > 'Audit Process Creation' → Success #>
 
-#.REQUIREMENTS
-# - Run as Administrator
-# - Windows 11
 
     This enforces:
 
