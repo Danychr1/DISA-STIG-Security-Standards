@@ -83,8 +83,3 @@ I identified a vulnerability tied to a specific STIG-ID using Tenable, targeting
 Once the compliance failure was identified, I remediated it using a PowerShell script built from the STIG Remediation Template. After execution, I validated the remediation by reviewing the relevant Registry Editor settings, restarting the machine, and rerunning the Tenable scan with the same parameters. The follow-up scan confirmed that the STIG-ID compliance issue was fully resolved.
 
 
-
-   
-https://github.com/behan101/DISA-STIGs
-
-https://medium.com/@stevenrim/powershell-automation-for-disa-stig-compliance-and-hardening-6515d055d9ef
