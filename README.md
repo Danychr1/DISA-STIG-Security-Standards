@@ -45,8 +45,7 @@ Researched required remediations for each STIG ID to determine corrective action
 
 2. Perform a vulnerability scan in Tenable using the Windows Compliance Checks policy.
 
-   
-<img width="1611" height="886" alt="Screenshot 2026-01-05 at 9 14 36 PM" src="https://github.com/user-attachments/assets/170b2e56-5173-410c-a450-3122959c5b1f" />
+<img width="1610" height="889" alt="Screenshot 2026-01-07 at 7 40 13 AM" src="https://github.com/user-attachments/assets/5f3d35a8-4f5b-4e1c-89e5-1371a007e286" />
 
 
 4. Searched the STIG-ID using Tenable Audits.
