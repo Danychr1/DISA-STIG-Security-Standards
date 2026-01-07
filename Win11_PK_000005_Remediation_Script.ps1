@@ -52,32 +52,46 @@ If (-not ([Security.Principal.WindowsPrincipal] `
 Write-Host "`n[INFO] Applying STIG: WN11-PK-000005" -ForegroundColor Cyan
 
 # -----------------------------
-# Certificate Source Folder
+# Certificate Directory
 # -----------------------------
 $CertPath = "C:\DoD_Certs"
 
 If (-not (Test-Path $CertPath)) {
-    Write-Error "Certificate directory not found: $CertPath"
+    Write-Host "[INFO] Certificate directory not found. Creating $CertPath..." -ForegroundColor Yellow
+    New-Item -ItemType Directory -Path $CertPath | Out-Null
+    Write-Host "[ACTION REQUIRED] Place DoD Root CA .cer files in $CertPath and rerun the script." -ForegroundColor Red
+    Exit 0
+}
+
+# -----------------------------
+# Locate Certificates
+# -----------------------------
+$CertFiles = Get-ChildItem -Path $CertPath -Filter *.cer
+
+If ($CertFiles.Count -eq 0) {
+    Write-Error "No DoD Root CA (.cer) files found in $CertPath"
     Exit 1
 }
 
 # -----------------------------
 # Install Certificates
 # -----------------------------
-$CertFiles = Get-ChildItem -Path $CertPath -Filter *.cer
-
-If ($CertFiles.Count -eq 0) {
-    Write-Error "No .cer files found in $CertPath"
-    Exit 1
-}
-
 foreach ($Cert in $CertFiles) {
-    Write-Host "[INFO] Installing $($Cert.Name)..."
-    Import-Certificate `
-        -FilePath $Cert.FullName `
-        -CertStoreLocation "Cert:\LocalMachine\Root" `
-        | Out-Null
+
+    $AlreadyInstalled = Get-ChildItem Cert:\LocalMachine\Root |
+        Where-Object { $_.Thumbprint -eq (Get-PfxCertificate $Cert.FullName).Thumbprint }
+
+    If ($AlreadyInstalled) {
+        Write-Host "[SKIPPED] $($Cert.Name) already installed." -ForegroundColor Yellow
+    }
+    Else {
+        Write-Host "[INFO] Installing $($Cert.Name)..."
+        Import-Certificate `
+            -FilePath $Cert.FullName `
+            -CertStoreLocation "Cert:\LocalMachine\Root" `
+            | Out-Null
+    }
 }
 
-Write-Host "[SUCCESS] DoD Root CA certificates installed successfully." -ForegroundColor Green
+Write-Host "[SUCCESS] DoD Root CA certificates verified/installed." -ForegroundColor Green
 Write-Host "[INFO] STIG WN11-PK-000005 remediation completed." -ForegroundColor Cyan
