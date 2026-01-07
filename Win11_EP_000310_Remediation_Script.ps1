@@ -13,12 +13,13 @@
     Plugin IDs      : N/A
     STIG-ID         : WN11-EP-000310
 
+
 .TITLE
    Enable Kernel DMA Protection – Block All for incompatible devices
 
 .DESCRIPTION
    Configures the system to enable Kernel DMA Protection and blocks enumeration
-of external devices incompatible with DMA protection, in compliance with DISA Windows 11 STIG WN11-EP-000310.
+     of external devices incompatible with DMA protection, in compliance with DISA Windows 11 STIG WN11-EP-000310.
 
     This enforces:
 
