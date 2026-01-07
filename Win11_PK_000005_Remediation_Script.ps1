@@ -15,12 +15,12 @@
 
 
 .TITLE
-  Install DoD Root CA Certificates
+  DoD Root CA Certificate Compliance Check
 
 .DESCRIPTION
-   Installs Department of Defense (DoD) Root CA certificates into the
-Trusted Root Certification Authorities store for the Local Computer,
-in compliance with DISA STIG WN11-PK-000005.
+   Checks whether required DoD Root CA certificates are installed
+in the Local Machine Trusted Root Certification Authorities store.
+Read-only compliance check (no remediation).
 
     This enforces:
 
@@ -37,61 +37,44 @@ in compliance with DISA STIG WN11-PK-000005.
     PS C:\> .\Win11_PK_000005_Remediation_Script.ps1
 #>
 
+ 
+Write-Host "`n[INFO] Checking STIG Compliance: WN11-PK-000005" -ForegroundColor Cyan
 
 # -----------------------------
-# Admin Check
+# Required DoD Root CAs
 # -----------------------------
-If (-not ([Security.Principal.WindowsPrincipal] `
-    [Security.Principal.WindowsIdentity]::GetCurrent()
-    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-
-    Write-Error "This script must be run as Administrator."
-    Exit 1
-}
-
-Write-Host "`n[INFO] Applying STIG: WN11-PK-000005" -ForegroundColor Cyan
+$RequiredCAs = @(
+    "DoD Root CA 3",
+    "DoD Root CA 4",
+    "DoD Root CA 5"
+)
 
 # -----------------------------
-# Certificate Directory
+# Get Installed Root CAs
 # -----------------------------
-$CertPath = "C:\DoD_Certs"
+$InstalledCAs = Get-ChildItem Cert:\LocalMachine\Root
 
-If (-not (Test-Path $CertPath)) {
-    Write-Host "[INFO] Certificate directory not found. Creating $CertPath..." -ForegroundColor Yellow
-    New-Item -ItemType Directory -Path $CertPath | Out-Null
-    Write-Host "[ACTION REQUIRED] Place DoD Root CA .cer files in $CertPath and rerun the script." -ForegroundColor Red
-    Exit 0
-}
+$MissingCAs = @()
 
-# -----------------------------
-# Locate Certificates
-# -----------------------------
-$CertFiles = Get-ChildItem -Path $CertPath -Filter *.cer
-
-If ($CertFiles.Count -eq 0) {
-    Write-Error "No DoD Root CA (.cer) files found in $CertPath"
-    Exit 1
-}
-
-# -----------------------------
-# Install Certificates
-# -----------------------------
-foreach ($Cert in $CertFiles) {
-
-    $AlreadyInstalled = Get-ChildItem Cert:\LocalMachine\Root |
-        Where-Object { $_.Thumbprint -eq (Get-PfxCertificate $Cert.FullName).Thumbprint }
-
-    If ($AlreadyInstalled) {
-        Write-Host "[SKIPPED] $($Cert.Name) already installed." -ForegroundColor Yellow
-    }
-    Else {
-        Write-Host "[INFO] Installing $($Cert.Name)..."
-        Import-Certificate `
-            -FilePath $Cert.FullName `
-            -CertStoreLocation "Cert:\LocalMachine\Root" `
-            | Out-Null
+foreach ($CA in $RequiredCAs) {
+    if ($InstalledCAs.Subject -notmatch $CA) {
+        $MissingCAs += $CA
     }
 }
+
+# -----------------------------
+# Compliance Result
+# -----------------------------
+if ($MissingCAs.Count -eq 0) {
+    Write-Host "[PASS] All required DoD Root CA certificates are installed." -ForegroundColor Green
+}
+else {
+    Write-Host "[FAIL] Missing DoD Root CA certificates:" -ForegroundColor Red
+    $MissingCAs | ForEach-Object { Write-Host " - $_" }
+}
+
+Write-Host "[INFO] Compliance check completed.`n" -ForegroundColor Cyan
 
 Write-Host "[SUCCESS] DoD Root CA certificates verified/installed." -ForegroundColor Green
-Write-Host "[INFO] STIG WN11-PK-000005 remediation completed." -ForegroundColor Cyan
+Write-Host "[INFO] STIG WN11-PK-000005 remediation completed." -ForegroundColor Cyan 
+
