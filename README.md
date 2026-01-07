@@ -30,35 +30,38 @@ Windows 11 STIG v2r4 Database
 
 An internal audit identified multiple Windows 11 compliance failures related to Windows Security Baseline and DISA STIG requirements. I was tasked with remediating these vulnerabilities safely using automation and validating STIG compliance end-to-end.
 
-💻 Lab VM Setup
-  Deploy Windows 11 VM & test misconfigs
+
+
+
+    💻 Lab VM Setup
+      Deploy Windows 11 VM & test misconfigs
           |
           v
-🔍 Tenable Scan
-  Identify compliance failures
+    🔍 Tenable Scan
+      Identify compliance failures
           |
           v
-📖 Research STIG-ID
-  Find remediation steps
+    📖 Research STIG-ID
+      Find remediation steps
           |
           v
-🛠 PowerShell Scripts
-  Build & test remediation
+    🛠 PowerShell Scripts
+      Build & test remediation
           |
           v
-✅ Apply Remediation
-  Run scripts on VM
+    ✅ Apply Remediation
+      Run scripts on VM
           |
           v
-🔎 Validate
-  Check registry & policies
+    🔎 Validate
+      Check registry & policies
           |
           v
-🔄 Rerun Scan
-  Confirm STIG compliance
+    🔄 Rerun Scan
+      Confirm STIG compliance
           |
           v
-🏁 Document Results
+    🏁 Document Results
 
 
 ### Step-by-Step Process
