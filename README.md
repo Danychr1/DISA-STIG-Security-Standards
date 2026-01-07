@@ -6,13 +6,20 @@
 
 flowchart TD
     A[💻 Lab VM Setup] --> B[🔍 Tenable Scan for STIG Compliance]
+    
     B --> C[📖 Research STIG-ID & Remediation Steps]
+    
     C --> D[🛠 PowerShell Script Development]
+    
     D --> E[✅ Apply Remediation Scripts]
+    
     E --> F[🔎 Validate Registry & Policies]
+    
     F --> G[🔄 Rerun Tenable Scan]
+    
     G --> H[🏁 Confirm Compliance & Document]
     
+
     %% Optional styling
     classDef startEnd fill:#f9f,stroke:#333,stroke-width:2px,color:#000;
     classDef process fill:#bbf,stroke:#333,stroke-width:1px,color:#000;
