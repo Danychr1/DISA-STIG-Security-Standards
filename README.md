@@ -73,12 +73,14 @@ Example solution:
 
    <img width="1275" height="760" alt="Screenshot 2026-01-05 at 10 09 00 PM" src="https://github.com/user-attachments/assets/703a8a73-e815-4285-b1db-37771601c0be" />
 
+7. After validation, I restarted the machine to ensure all changes were fully applied. I then reran the Tenable scan to perform a follow-up compliance audit, confirming that the remediation was successfully implemented.
 
 
+### Summary
 
+I identified a vulnerability tied to a specific STIG-ID using Tenable, targeting a Windows 11 virtual machine. The scan was run on Local-Scan-Engine-01 using the VM’s private IP and administrative credentials to ensure a thorough assessment. I configured the scan for the appropriate operating system and STIG version (DISA Microsoft Windows 11 STIG v2r4), disabling all plugins except the Windows Compliance Checks (Plugin ID: 24760) to speed up the scan and optimize resources.
 
-
-8. 
+Once the compliance failure was identified, I remediated it using a PowerShell script built from the STIG Remediation Template. After execution, I validated the remediation by reviewing the relevant Registry Editor settings, restarting the machine, and rerunning the Tenable scan with the same parameters. The follow-up scan confirmed that the STIG-ID compliance issue was fully resolved.
 
 
 
