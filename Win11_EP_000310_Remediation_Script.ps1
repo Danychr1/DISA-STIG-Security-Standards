@@ -14,7 +14,7 @@
     STIG-ID         : WN11-EP-000310
 
 .TITLE
-Enable Kernel DMA Protection – Block All for incompatible devices
+   Enable Kernel DMA Protection – Block All for incompatible devices
 
 .DESCRIPTION
    Configures the system to enable Kernel DMA Protection and blocks enumeration
