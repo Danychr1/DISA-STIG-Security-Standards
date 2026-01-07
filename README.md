@@ -109,6 +109,8 @@ Reran Tenable scans to confirm that all remediated STIGs passed compliance.
 
 <img width="1544" height="724" alt="Remediation Validation" src="https://github.com/user-attachments/assets/68dcca58-15e6-4d78-a7ca-4f8c684b0d3b" /> *Validation confirms STIG compliance.*
 
+<img width="1608" height="880" alt="Screenshot 2026-01-07 at 11 15 48 AM" src="https://github.com/user-attachments/assets/6bd695fa-46ab-4fcc-8ecc-278b578fe930" /> *Test Result.*
+
 #### Key Takeaways
 
 STIG remediation requires risk-based decision-making. Not all controls should be blindly applied.
