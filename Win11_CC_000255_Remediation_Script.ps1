@@ -40,8 +40,7 @@
 # Check for Administrator Privileges
 # -----------------------------
 If (-not ([Security.Principal.WindowsPrincipal] `
-    [Security.Principal.WindowsIdentity]::GetCurrent()
-    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
 
     Write-Error "[ERROR] This script must be run as Administrator."
     Exit 1
@@ -66,6 +65,6 @@ Try {
     Write-Host "[SUCCESS] Hardware security device requirement enabled." -ForegroundColor Green
     Write-Host "[INFO] STIG WN11-CC-000255 remediation completed." -ForegroundColor Cyan
     Write-Host "[NOTE] A sign-out or reboot may be required for enforcement." -ForegroundColor Yellow
-}
-Catch {
+} Catch {
     Write-Error "[ERROR] Failed to set registry key: $_"
+}
