@@ -4,6 +4,22 @@
 
 ## DISA STIG Security Standards – Windows 11 Compliance Automation
 
+flowchart TD
+    A[💻 Lab VM Setup] --> B[🔍 Tenable Scan for STIG Compliance]
+    B --> C[📖 Research STIG-ID & Remediation Steps]
+    C --> D[🛠 PowerShell Script Development]
+    D --> E[✅ Apply Remediation Scripts]
+    E --> F[🔎 Validate Registry & Policies]
+    F --> G[🔄 Rerun Tenable Scan]
+    G --> H[🏁 Confirm Compliance & Document]
+    
+    %% Optional styling
+    classDef startEnd fill:#f9f,stroke:#333,stroke-width:2px,color:#000;
+    classDef process fill:#bbf,stroke:#333,stroke-width:1px,color:#000;
+    class A,H startEnd;
+    class B,C,D,E,F,G process;
+
+
 ### Summary
 
 This project automates Windows 11 STIG compliance remediation using Tenable scans and PowerShell scripts. I targeted a lab VM with administrative access, ran a focused STIG audit (DISA Windows 11 STIG v2r4), and remediated any compliance failures using scripts built from the STIG Remediation Template.
